@@ -33,6 +33,7 @@ CONF_CUSTOM_EFFECT = "custom_effect"
 CONF_COLORS = "colors"
 CONF_SPEED_PCT = "speed_pct"
 CONF_TRANSITION = "transition"
+CONF_UNIQUE_ID = "unique_id"
 
 DOMAIN = "flux_led"
 
@@ -124,6 +125,7 @@ CUSTOM_EFFECT_SCHEMA = vol.Schema(
 DEVICE_SCHEMA = vol.Schema(
     {
         vol.Optional(CONF_NAME): cv.string,
+        vol.Optional(CONF_UNIQUE_ID): cv.string,
         vol.Optional(ATTR_MODE, default=MODE_RGBW): vol.All(
             cv.string, vol.In([MODE_RGBW, MODE_RGB, MODE_WHITE])
         ),
@@ -149,6 +151,7 @@ def setup_platform(hass, config, add_entities, discovery_info=None):
         device = {}
         device["name"] = device_config[CONF_NAME]
         device["ipaddr"] = ipaddr
+        device[CONF_UNIQUE_ID] = device_config.get(CONF_UNIQUE_ID)
         device[CONF_PROTOCOL] = device_config.get(CONF_PROTOCOL)
         device[ATTR_MODE] = device_config[ATTR_MODE]
         device[CONF_CUSTOM_EFFECT] = device_config.get(CONF_CUSTOM_EFFECT)
@@ -183,6 +186,9 @@ class FluxLight(LightEntity):
     def __init__(self, device):
         """Initialize the light."""
         self._name = device["name"]
+        self._unique_id = device["unique_id"]
+        self.unique_id = device["unique_id"]
+        self._attr_unique_id = device["unique_id"]
         self._ipaddr = device["ipaddr"]
         self._protocol = device[CONF_PROTOCOL]
         self._mode = device[ATTR_MODE]
