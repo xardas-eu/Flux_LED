@@ -187,8 +187,6 @@ class FluxLight(LightEntity):
         """Initialize the light."""
         self._name = device["name"]
         self._unique_id = device["unique_id"]
-        self.unique_id = device["unique_id"]
-        self._attr_unique_id = device["unique_id"]
         self._ipaddr = device["ipaddr"]
         self._protocol = device[CONF_PROTOCOL]
         self._mode = device[ATTR_MODE]
