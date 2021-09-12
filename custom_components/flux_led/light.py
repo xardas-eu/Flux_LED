@@ -186,7 +186,8 @@ class FluxLight(LightEntity):
     def __init__(self, device):
         """Initialize the light."""
         self._name = device["name"]
-        self._unique_id = device["unique_id"]
+        self._unique_id = device["unique_id"] 
+        self._device_id = device["unique_id"] 
         self._ipaddr = device["ipaddr"]
         self._protocol = device[CONF_PROTOCOL]
         self._mode = device[ATTR_MODE]
@@ -213,6 +214,10 @@ class FluxLight(LightEntity):
         """Disconnect from Flux light."""
         self._bulb = None
 
+    @property
+    def unique_id(self): 
+        return self._device_id
+        
     @property
     def available(self) -> bool:
         """Return True if entity is available."""
